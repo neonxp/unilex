@@ -1,3 +1,5 @@
+// +build example
+
 package main
 
 // Helper functions to convert infix notation to RPN and calculates expression result.
@@ -9,6 +11,15 @@ import (
 
 	"github.com/neonxp/unilex"
 )
+
+var opPriority = map[string]int{
+	"^": 3,
+	"!": 3,
+	"*": 2,
+	"/": 2,
+	"+": 1,
+	"-": 1,
+}
 
 func infixToRPNotation(l *unilex.Lexer) []unilex.Lexem {
 	output := []unilex.Lexem{}

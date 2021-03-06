@@ -1,3 +1,5 @@
+// +build example
+
 package main
 
 import (
@@ -5,16 +7,6 @@ import (
 
 	"github.com/neonxp/unilex"
 )
-
-var output []unilex.Lexem = []unilex.Lexem{}
-var opPriority = map[string]int{
-	"^": 3,
-	"!": 3,
-	"*": 2,
-	"/": 2,
-	"+": 1,
-	"-": 1,
-}
 
 func main() {
 
