@@ -23,3 +23,24 @@ func ScanAlphaNum(l *Lexer) bool {
 	l.AcceptWhile(alpha + digits)
 	return true
 }
+
+// ScanQuotedString returns true if next input tokens is quoted string. Can be used with any type of quotes.
+func ScanQuotedString(l *Lexer, quote rune) bool {
+	start := l.Pos
+	if l.Next() != quote {
+		l.Back()
+		return false
+	}
+	for {
+		ch := l.Next()
+		switch ch {
+		case EOF:
+			l.Pos = start // Return position to start
+			return false  // Unclosed quote string?
+		case '\\':
+			l.Next() // Skip next char
+		case quote:
+			return true // Closing quote
+		}
+	}
+}
