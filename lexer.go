@@ -16,6 +16,7 @@ type Lexer struct {
 	Pos    int        // Pos at input string.
 	Output chan Lexem // Lexems channel.
 	width  int        // Width of last rune.
+	states stateStack // Stack of states to realize PrevState.
 }
 
 // New returns new scanner for input string.
@@ -37,6 +38,16 @@ func (l *Lexer) Run(init StateFunc) {
 	close(l.Output)
 }
 
+// PopState returns previous state function.
+func (l *Lexer) PopState() StateFunc {
+	return l.states.Pop()
+}
+
+// PushState pushes state before going deeper states.
+func (l *Lexer) PushState(s StateFunc) {
+	l.states.Push(s)
+}
+
 // Emit current lexem to output.
 func (l *Lexer) Emit(typ LexType) {
 	l.Output <- Lexem{
@@ -51,7 +62,7 @@ func (l *Lexer) Emit(typ LexType) {
 // Errorf produces error lexem and stops scanning.
 func (l *Lexer) Errorf(format string, args ...interface{}) StateFunc {
 	l.Output <- Lexem{
-		Type:  LError,
+		Type:  LexError,
 		Value: fmt.Sprintf(format, args...),
 		Start: l.Start,
 		End:   l.Pos,

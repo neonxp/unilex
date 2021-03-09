@@ -9,12 +9,12 @@ type Lexem struct {
 }
 
 // LexType represents type of current lexem.
-type LexType string
+type LexType int
 
 // Some std lexem types
 const (
-	// LError represents lexing error.
-	LError LexType = "ERROR"
 	// LEOF represents end of input.
-	LEOF LexType = "EOF"
+	LexEOF LexType = -1
+	// LError represents lexing error.
+	LexError LexType = -2
 )
