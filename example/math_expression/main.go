@@ -1,11 +1,16 @@
-// +build example
-
 package main
 
 import (
 	"fmt"
 
 	"github.com/neonxp/unilex"
+)
+
+const (
+	LP unilex.LexType = iota
+	RP
+	NUMBER
+	OPERATOR
 )
 
 func main() {
@@ -29,13 +34,13 @@ func lexExpression(l *unilex.Lexer) unilex.StateFunc {
 
 	switch {
 	case l.Accept("("):
-		l.Emit("LP")
+		l.Emit(LP)
 	case l.Accept(")"):
-		l.Emit("RP")
+		l.Emit(RP)
 	case unilex.ScanNumber(l):
-		l.Emit("NUMBER")
+		l.Emit(NUMBER)
 	case l.Accept("+-*/^!"):
-		l.Emit("OPERATOR")
+		l.Emit(OPERATOR)
 	case l.Peek() == unilex.EOF:
 		return nil
 	default:

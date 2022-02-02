@@ -1,6 +1,3 @@
-//go:build example
-// +build example
-
 package main
 
 // Simple lexem stack implementation.
