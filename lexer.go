@@ -134,16 +134,22 @@ func (l *Lexer) AcceptAnyOf(s []string, caseInsentive bool) bool {
 }
 
 // AcceptWhile passing symbols from input while they at `valid` string.
-func (l *Lexer) AcceptWhile(valid string) {
+func (l *Lexer) AcceptWhile(valid string) bool {
+	isValid := false
 	for l.Accept(valid) {
+		isValid = true
 	}
+	return isValid
 }
 
 // AcceptWhileNot passing symbols from input while they NOT in `invalid` string.
-func (l *Lexer) AcceptWhileNot(invalid string) {
+func (l *Lexer) AcceptWhileNot(invalid string) bool {
+	isValid := false
 	for !strings.ContainsRune(invalid, l.Next()) {
+		isValid = true
 	}
 	l.Back()
+	return isValid
 }
 
 // AtStart returns true if current lexem not empty
